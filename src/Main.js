@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Map from './Map';
 
-import Map from './Map'
 class Main extends Component {
     constructor(props) {
         super(props);
@@ -16,13 +17,14 @@ class Main extends Component {
         e.preventDefault()
         let url = `https://eu1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&q=${e.target.searchtxt.value}&format=json`
         axios.get(url).then(res => {
-            console.log(res.data[0])
+            //console.log(res.data[0])
             this.setState({
                 cityName: res.data[0].display_name,
                 lat: res.data[0].lat,
                 lon: res.data[0].lon,
                 showMap: true
             })
+          
         });
 
     }
@@ -32,6 +34,7 @@ class Main extends Component {
             <div>
                 <h1> City location</h1>
                 <form onSubmit={(e) => { this.submitHandler(e) }}>
+
                     <input name="searchtxt" type="text" placeholder="search"></input>
                     <input type="submit" value="Explore"></input>
                 </form>
