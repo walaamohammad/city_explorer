@@ -1,5 +1,3 @@
-
-
 # city-explorer
 
 **Author**: walaa bani mfarrej

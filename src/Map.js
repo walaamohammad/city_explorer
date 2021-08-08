@@ -6,32 +6,27 @@ export class Map extends Component {
         return (
             <div>
                 <Col>
-                
-                <Card border="primary" style={{ width: '18rem' }}
-    
-    className="mb-2"
-  >
-    <Card.Header>city location</Card.Header>
-    <Card.Body>
-      <Card.Title>{this.props.cityName}</Card.Title>
-    </Card.Body>
-  </Card>
- <Card style={{ width: '18rem' }}>
-  <Card.Img variant="top" src={this.props.imgsrc} alt='alt'  />
+                <Card style={{ width: '18rem' }}>
+  <Card.Img variant="top" src="holder.js/100px180" />
   <Card.Body>
+    <Card.Title>{this.props.cityName}</Card.Title>
     <Card.Text>
     {this.props.lat}
     </Card.Text>
     <Card.Text>
     {this.props.lon}
     </Card.Text>
+    <Card.Text>
+      <img src={this.props.imgsrc} alt='alt' />
+    </Card.Text>
   </Card.Body>
 </Card>
-  </Col>
+                  
+                </Col>
 
             </div>
         )
     }
 }
 
-export default Map;
+export default Map
