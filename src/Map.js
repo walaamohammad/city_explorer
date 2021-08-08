@@ -27,7 +27,7 @@ export class Map extends Component {
     </Card.Text>
   </Card.Body>
 </Card>
-                </Col>
+  </Col>
 
             </div>
         )
