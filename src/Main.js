@@ -32,7 +32,7 @@ class Main extends Component {
             }) 
         })
          .catch((error)=> {
-                this.setState({
+                this.setState ({
                   errorMsg: error,
                   displayError: true,
                 });
@@ -49,7 +49,7 @@ class Main extends Component {
     this.setState({
 
         displayError: false,
-        errorMsg: "",
+       
     })
 })
  .catch((error)=> {
