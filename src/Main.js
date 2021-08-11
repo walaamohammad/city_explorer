@@ -3,7 +3,7 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Map from './Map';
 import Weather from './Weather';
-
+import Movies from './Movies';
 class Main extends Component {
     constructor(props) {
         super(props);
@@ -12,13 +12,15 @@ class Main extends Component {
             lon: "0.0",
             cityName: "",
             showMap: false,
-            weatherArr:[]
+            weatherArr: [],
+            weatherData: [],
+            displayWeather: false,
         }
     }
     submitHandler = (e) => {
         e.preventDefault()
         let url = `https://eu1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&q=${e.target.searchtxt.value}&format=json`
-    
+
         axios.get(url).then(res => {
             //console.log(res.data[0])
             this.setState({
@@ -28,65 +30,97 @@ class Main extends Component {
                 showMap: true,
                 displayError: false,
                 errorMsg: "",
-            
-            }) 
-        })
-         .catch((error)=> {
-                this.setState ({
-                  errorMsg: error,
-                  displayError: true,
-                });
-                this.weather(this.state.cityName)
-        });
 
-   
+            })
+            this.getWeather(res.data[0].lat, res.data[0].lon)
+          this.getMovies(res.data[0].display_name)
+        })
+            .catch((error) => {
+                this.setState({
+                    errorMsg: error,
+                    displayError: true,
+                });
+
+            });
+
+
     };
 
-    weather=(city)=>{
-   let url     = `http://localhost:8000/weather/${city.split(',')[0]}`
-   axios.get(url).then(res => {
-    //console.log(res.data[0])
-    this.setState({
 
-        displayError: false,
-       
-    })
-})
- .catch((error)=> {
-        this.setState({
-          errorMsg: error,
-          displayError:true,
-         errorMsg:` the weather not found`,
-          weatherArr:[] // if data is false empty array
-        });
-    
- 
-})
-}
+
+    getWeather = (lat, lon) => {
+        let url = `http://localhost:3005/getWeather/${lat}/${lon}`
+        axios.get(url).then(res => {
+            this.setState({
+                weatherData: res.data,
+                displayError: false,
+                displayWeather: true,
+            });
+        })
+            .catch((error) => {
+                this.setState({
+                    errorMsg: error,
+                    displayError: true,
+                    weatherArr: [] // if data is false empty array
+                });
+            })
+    }
+
+    getMovies = (city) => {
+        let url = `http://localhost:3005/getMovies/${city}`
+        axios.get(url).then(res => {
+           console.log(res.data)
+            this.setState({
+                movieData: res.data,
+                displayError: false,
+                displayMovie: true,
+            });
+        })
+            .catch((error) => {
+                this.setState({
+                    errorMsg: error,
+                    displayError: true,
+                    displayMovie: false,
+                    movieArray: [] 
+            // if data is false empty array
+                });
+            })
+    }
+
     render() {
         return (
             <div>
-            {this.state.displayError && (
-                <p key={1} variant={"danger"}>
-                  {this.state.errorMsg} City not Found
-                </p>
-              )}
+                {this.state.displayError && (
+                    <p key={1} variant={"danger"}>
+                        {this.state.errorMsg} City not Found
+                    </p>
+                )}
                 <h1> City location</h1>
                 <form onSubmit={(e) => { this.submitHandler(e) }}>
 
                     <input name="searchtxt" type="text" placeholder="search"></input>
                     <input type="submit" value="Explore"></input>
                 </form>
+
                 {this.state.showMap &&
                     <Map imgsrc={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.lat},${this.state.lon}`} cityName={this.state.cityName} lat={this.state.lat} lon={this.state.lon}></Map>
                 }
-                      {this.state.weatherArr && <>  {this.state.weatherArr.map((ele)=>{
-          return (<Weather dateOfCountry={ele.date} description={ele.description}/>) 
-         })} </> }
-            </div>
 
-        )
-    }
-};
+                {this.state.displayWeather && <>  {this.state.weatherData.map((ele) => {
+                    return (<Weather dateOfCountry={ele.date} description={ele.description} />)
 
-export default Main;
+                })} </>
+                }
+
+                {this.state.movieData && <>  {this.state.movieData.map((ele) => {
+                    return (<Movies filmTitle={ele.title} over={ele.overview} avg={ele.average_votes} total={ele.total_votes}
+                        imgUrl={ele.image_url} pop={ele.popularity} released={ele.released_on} />)
+                })
+
+                }
+                </>
+                }
+                </div>)}}
+
+             export default Main;
+     

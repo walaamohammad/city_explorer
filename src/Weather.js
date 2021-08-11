@@ -1,12 +1,18 @@
 import React, { Component } from 'react'
+import { Card } from 'react-bootstrap'
 
 
- class Weather extends Component {
+class Weather extends Component {
     render() {
         return (
             <div>
-                <h3>{this.props.dateOfCountry}</h3>
-                <h3>{this.props.description}</h3>
+                <Card>
+                    <Card.Text>
+                        {this.props.dateOfCountry}
+                        {this.props.description}
+                    </Card.Text>
+                </Card>
+
             </div>
         )
     }

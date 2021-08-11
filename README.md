@@ -30,4 +30,23 @@ Finish time: 6pm
 
 Actual time needed to complete: 3hours
 
+Name of feature: class7
+
+Estimate of time needed to complete: 4
+
+Start time: 2pm
+
+Finish time: 6pm
+
+Actual time needed to complete: 3hours
+
+Name of feature: class8
+
+Estimate of time needed to complete: 4
+
+Start time: 2pm
+
+Finish time: 6pm
+
+Actual time needed to complete: 3hours
 
