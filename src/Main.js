@@ -32,16 +32,17 @@ class Main extends Component {
                 errorMsg: "",
 
             })
+            console.log(res.data);
             this.getWeather(res.data[0].lat, res.data[0].lon)
-          this.getMovies(res.data[0].display_name)
+          this.getMovies(e.target.searchtxt.value)
         })
-            .catch((error) => {
-                this.setState({
-                    errorMsg: error,
-                    displayError: true,
-                });
+            // .catch((error) => {
+            //     this.setState({
+            //         errorMsg: error,
+            //         displayError: true,
+            //     });
 
-            });
+            // });
 
 
     };
@@ -49,25 +50,25 @@ class Main extends Component {
 
 
     getWeather = (lat, lon) => {
-        let url = `http://localhost:3005/getWeather/${lat}/${lon}`
+        let url = `https://city-explorer-w.herokuapp.com/getWeather/${lat}/${lon}`
         axios.get(url).then(res => {
             this.setState({
                 weatherData: res.data,
                 displayError: false,
                 displayWeather: true,
             });
-        })
-            .catch((error) => {
-                this.setState({
-                    errorMsg: error,
-                    displayError: true,
-                    weatherArr: [] // if data is false empty array
-                });
-            })
+        // })
+        //     .catch((error) => {
+        //         this.setState({
+        //             errorMsg: error,
+        //             displayError: true,
+        //             weatherArr: [] // if data is false empty array
+        //         });
+         })
     }
 
     getMovies = (city) => {
-        let url = `http://localhost:3005/getMovies/${city}`
+        let url = `https://city-explorer-w.herokuapp.com/getMovies/${city}`
         axios.get(url).then(res => {
            console.log(res.data)
             this.setState({
@@ -76,15 +77,15 @@ class Main extends Component {
                 displayMovie: true,
             });
         })
-            .catch((error) => {
-                this.setState({
-                    errorMsg: error,
-                    displayError: true,
-                    displayMovie: false,
-                    movieArray: [] 
-            // if data is false empty array
-                });
-            })
+            // .catch((error) => {
+            //     this.setState({
+            //         errorMsg: error,
+            //         displayError: true,
+            //         displayMovie: false,
+            //         movieArray: [] 
+            // // if data is false empty array
+            //     });
+            // })
     }
 
     render() {
